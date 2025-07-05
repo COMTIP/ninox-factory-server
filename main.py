@@ -5,13 +5,15 @@ import zeep
 
 app = FastAPI()
 
+# --- CORS: Esto permite que Ninox y cualquier web pueda hacer POST, GET, OPTIONS, etc ---
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],          # Puedes especificar ["https://app.ninox.com"] para mayor seguridad
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"],          # Permitir todos los métodos (POST, OPTIONS, GET, etc)
+    allow_headers=["*"],          # Permitir todos los headers
 )
+# ---------------------------------------------------------------------------------------
 
 wsdl = 'https://demoemision.thefactoryhka.com.pa/ws/obj/v1.0/Service.svc?singleWsdl'
 
@@ -26,3 +28,4 @@ async def enviar_factura(request: Request):
         return PlainTextResponse("Documento enviado correctamente")
     except Exception as e:
         return PlainTextResponse(f"ERROR: {e}", status_code=500)
+
