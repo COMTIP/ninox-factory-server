@@ -10,6 +10,7 @@ wsdl = 'https://demoemision.thefactoryhka.com.pa/ws/obj/v1.0/Service.svc?singleW
 @app.post("/enviar-factura")
 async def enviar_factura(request: Request):
     datos = await request.json()
+    print("DATOS RECIBIDOS:", datos)  # <--- AGREGADO PARA DEBUG
     datos['tokenEmpresa'] = "hqavyygdygrn_tfhka"
     datos['tokenPassword'] = "@&Si-&7m/,dy"
     try:
@@ -17,4 +18,5 @@ async def enviar_factura(request: Request):
         res = cliente.service.Enviar(**datos)
         return JSONResponse(content={"respuesta": str(res)})
     except Exception as e:
+        print("ERROR:", e)  # <--- AGREGADO PARA DEBUG
         return JSONResponse(content={"error": str(e)}, status_code=500)
